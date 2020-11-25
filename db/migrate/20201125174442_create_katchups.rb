@@ -4,6 +4,7 @@ class CreateKatchups < ActiveRecord::Migration[6.0]
       t.referances :relationship, null: false, foreign_key: true
       t.references :restaurant, null: false, foreign_key: true
       t.datetime :starts_at
+      t.boolean :confirmed, default: :false
 
       t.timestamps
     end
