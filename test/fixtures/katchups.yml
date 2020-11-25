@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  relationsship: 
+  restaurant: one
+  starts_at: 2020-11-25 12:44:42
+
+two:
+  relationsship: 
+  restaurant: two
+  starts_at: 2020-11-25 12:44:42
