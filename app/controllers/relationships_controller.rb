@@ -1,5 +1,6 @@
 class RelationshipsController < ApplicationController
-  before_action :set_relationship, only: [:show, :update, :destroy]
+  before_action :set_relationship, only: [:show, :destroy]
+  before_action :set_pending, only: [:update, :delete_pending]
 
   # GET /relationships
   def index
@@ -26,6 +27,7 @@ class RelationshipsController < ApplicationController
 
   # PATCH/PUT /relationships/1
   def update
+    @relationship = Relationship.pending_requests(params[:user_id], params[:friend_id])
     if @relationship.update(relationship_params)
       render json: @relationship
     else
@@ -38,6 +40,10 @@ class RelationshipsController < ApplicationController
     @relationship.destroy
   end
 
+  def delete_pending
+    @relationship.destroy
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_relationship
@@ -46,6 +52,10 @@ class RelationshipsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def relationship_params
-      params.require(:relationship).permit(:user_id, :confirmed)
+      params.permit(:user_id, :friend_id, :confirmed)
+    end
+
+    def set_pending
+      @relationship = Relationship.pending_requests(params[:user_id], params[:friend_id])[0]
     end
 end
