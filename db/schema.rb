@@ -35,12 +35,11 @@ ActiveRecord::Schema.define(version: 2020_11_25_174442) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
     t.string "password_digest"
     t.string "email"
     t.string "name"
     t.string "location"
-    t.string "profile_img"
+    t.string "profile_img", default: "http://localhost:3000/images/katchup1.png"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
