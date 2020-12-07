@@ -21,6 +21,6 @@ class RestaurantsController < ApplicationController
     end
 
     def set_location
-      @location = "Ellijay GA"      
+      @location = logged_in_user.location      
     end
 end
