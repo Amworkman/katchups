@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/auto_login", to: "users#auto_login"
   get "/pending_friends", to: "users#pending_friends"
   get "/friends", to: "users#friends"
+  get "/places_key", to: "places_key#index"
   delete "/delete_pending", to: "relationships#delete_pending"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
