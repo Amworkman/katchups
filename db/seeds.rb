@@ -8,11 +8,10 @@
 
 10.times do 
     User.create(
-        username: Faker::TvShows::StarTrek.unique.character.gsub(/\s+/, ""),
+        name: Faker::TvShows::StarTrek.unique.character,
         password: "password",
         email: Faker::TvShows::SiliconValley.unique.email,
-        name: Faker::TvShows::StrangerThings.unique.character,
-        location: Faker::Address.zip,
+        location: Faker::Address.city,
         profile_img: Faker::Avatar.image
     )
 end
