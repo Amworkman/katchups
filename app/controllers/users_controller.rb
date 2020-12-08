@@ -3,8 +3,7 @@ class UsersController < ApplicationController
   before_action :authorized, only: [:auto_login]
  
   def index
-    @users = User.where("name ILIKE :search OR username ILIKE :search", search: "%#{params["search"]}%")
- 
+    @users = User.where("name ILIKE :search", search: "%#{params["search"]}%")
     render json: @users
   end
   
