@@ -1,19 +1,20 @@
 class KatchupsController < ApplicationController
-  before_action :set_katchup, only: [:show, :update, :destroy]
+  before_action :set_katchup, only: [:show, :destroy]
   
   def index
-    @katchups = Katchup.all
-
+    @katchups = Katchup.where(user_id: logged_in_user.id).or(Katchup.where( friend_id: logged_in_user.id))
     render json: @katchups
   end
   
-  def show
+  def show    
     render json: @katchup
   end
   
   def create
-    @katchup = Katchup.new(katchup_params)
-
+    @relationship = Relationship.find_relationship(params["user_id"], params["friend_id"])
+      #if Katchup.detect
+        @katchup = Katchup.new(katchup_params)
+        @katchup.relationship_id = @relationship
     if @katchup.save
       render json: @katchup, status: :created, location: @katchup
     else
@@ -22,7 +23,16 @@ class KatchupsController < ApplicationController
   end
   
   def update
-    if @katchup.update(katchup_params)
+    @relationship = Relationship.find_relationship(params["user_id"], params["friend_id"])
+    @katchup = Katchup.where(relationship_id: @relationship)
+     
+    if params[:user_restaurant]
+      @katchup.first.user_array << params[:user_restaurant]
+    elsif params[:friend_restaurant]
+      @katchup.first.friend_array << params[:friend_restaurant]
+    end
+
+    if @katchup.first.update(katchup_params)
       render json: @katchup
     else
       render json: @katchup.errors, status: :unprocessable_entity
@@ -40,6 +50,6 @@ class KatchupsController < ApplicationController
     end
     
     def katchup_params
-      params.require(:katchup).permit(:relationsship, :restaurant_id, :starts_at)
+      params.permit(:relationsship, :restaurant_id,:friend_id, :user_id, :user_array, :friend_array, :user_confimation, :friend_confimation, :starts_at, :location)
     end
 end
