@@ -8,8 +8,8 @@ class Restaurant < ApplicationRecord
             }
         }
 
-    def self.location_restaurants(location, search_terms="")
-        @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&term=#{search_terms}&sort_by=best_match"
+    def self.location_restaurants(location, date="")
+        @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&sort_by=best_match"
         HTTParty.get(@search_url, @@headers)
     end
 
