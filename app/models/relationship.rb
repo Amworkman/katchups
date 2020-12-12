@@ -18,7 +18,7 @@ class Relationship < ApplicationRecord
     if Relationship.where(user_id: id1, friend_id: id2, confirmed: true).empty?
       Relationship.where(user_id: id2, friend_id: id1, confirmed: true)[0].id
     else
-      Relationship.where(user_id: id1, friend_id: id2, confirmed: true).id
+      Relationship.where(user_id: id1, friend_id: id2, confirmed: true)[0].id
     end
   end
 
