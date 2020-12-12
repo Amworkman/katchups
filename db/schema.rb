@@ -10,18 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_174442) do
+ActiveRecord::Schema.define(version: 2020_12_11_174614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "katchups", force: :cascade do |t|
     t.bigint "relationship_id", null: false
-    t.string "restaurant_id", null: false
+    t.string "restaurant_id"
     t.datetime "starts_at"
     t.boolean "confirmed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "user_array", default: [], array: true
+    t.string "friend_array", default: [], array: true
+    t.boolean "friend_confirmation", default: false
+    t.boolean "user_confirmation", default: false
+    t.string "location"
+    t.integer "user_id"
+    t.integer "friend_id"
     t.index ["relationship_id"], name: "index_katchups_on_relationship_id"
   end
 
