@@ -4,9 +4,18 @@ class RestaurantsController < ApplicationController
 
   
   def index
-    @restaurants = Restaurant.location_restaurants(@location, @search_terms="")
-    logged_in_user
-    render json: @restaurants
+    
+    if params[:date] 
+           
+      @location = params[:location]
+      @date = params[:date].to_time.to_i      
+      @restaurants = Restaurant.location_restaurants(@location, @date)
+      render json: @restaurants
+    else
+      @restaurants = Restaurant.location_restaurants(@location, @date="") 
+      logged_in_user
+      render json: @restaurants
+    end
   end
 
   
@@ -20,7 +29,7 @@ class RestaurantsController < ApplicationController
       @restaurant = Restaurant.single(params[:id])
     end
 
-    def set_location
+    def set_location      
       @location = logged_in_user.location      
     end
 end
