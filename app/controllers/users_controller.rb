@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:friends, :pending_friends, :show, :update, :destroy]
-  #before_action :authorized, only: [:auto_login]
+  before_action :authorized, only: [:auto_login]
  
   def index
     @users = User.where("name ILIKE :search", search: "%#{params["search"]}%")
