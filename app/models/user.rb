@@ -1,7 +1,14 @@
-class User < ApplicationRecord    
+class User < ApplicationRecord 
+    include Rails.application.routes.url_helpers   
     has_secure_password
     has_many :relationships
     has_many :pending_relationships, -> { where confirmed: false }, class_name: 'Relationship', foreign_key: "friend_id"
+
+    has_one_attached :profile_img
+    
+    def get_image_url
+        url_for(self.profile_img)
+      end
 
     def friends
         sent_invitation = Relationship.where(user_id: id, confirmed: true).pluck(:friend_id)
