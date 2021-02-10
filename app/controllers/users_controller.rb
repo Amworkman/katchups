@@ -4,16 +4,16 @@ class UsersController < ApplicationController
  
   def index
     @users = User.where("name ILIKE :search", search: "%#{params["search"]}%")
-    render json: @users
+    render json: @users.to_json(:include => [:relationships])
   end
   
   def friends     
-    @users = @user.friends      
+    @users = @user.friends     
     render json: @users
   end
 
   def pending_friends    
-    @users = @user.pending_friends
+    @users = User.first.pending_friends
     render json: @users
   end
   
@@ -31,15 +31,15 @@ class UsersController < ApplicationController
     end
   end
   
-  def update
+  def update    
     if @user.update(user_params)
-      render json: @user
+      respond_to_patch()
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  def login
+  def login 
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
       token = encode_token({user_id: @user.id})
@@ -58,6 +58,15 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def respond_to_patch()
+      if @user.valid?()
+        user_serializer = UserSerializer.new(user: @user)
+        render json: user_serializer.serialize_updated_user()
+      else
+        render json: { errors: user.errors }, status: 400
+      end
+    end
     
     def set_user
       logged_in_user
