@@ -29,7 +29,7 @@ class RestaurantsController < ApplicationController
       @restaurant = Restaurant.single(params[:id])
     end
 
-    def set_location      
-      @location = logged_in_user.location      
+    def set_location 
+        @location = params[:location]          
     end
 end
