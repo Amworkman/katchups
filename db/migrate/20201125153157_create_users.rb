@@ -5,8 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :email
       t.string :name
       t.string :location
-      t.string :profile_img, default: "https://katchupsapi.herokuapp.com/images/katchup1.png"
-
+      t.string :profile_img_url, default: "https://katchupsapi.herokuapp.com/images/katchup1.png"
       t.timestamps
     end
   end
