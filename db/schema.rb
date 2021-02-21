@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_042550) do
+ActiveRecord::Schema.define(version: 2021_02_10_032720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2021_02_10_042550) do
     t.string "email"
     t.string "name"
     t.string "location"
+    t.string "profile_img_url", default: "https://katchupsapi.herokuapp.com/images/katchup1.png"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
