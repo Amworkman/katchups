@@ -13,7 +13,7 @@ class UserSerializer
      {
       user: {
         id: user.id,
-        profile_img: user.get_image_url(),
+        profile_img_url: user.profile_img_url,
         email: user.email,
         name: user.name,
         location: user.location,
