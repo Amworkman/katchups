@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:friends, :pending_friends, :show, :update, :destroy]
   before_action :authorized, only: [:auto_login]
+  include Rails.application.routes.url_helpers
  
   def index
-    @users = User.where("name ILIKE :search", search: "%#{params["search"]}%")
+    @users = User.where("name ILIKE :search", search: "%#{params["search"]}%").with_attached_profile_img
     render json: @users.to_json(:include => [:relationships])
   end
   
@@ -31,8 +32,10 @@ class UsersController < ApplicationController
     end
   end
   
-  def update    
+  def update 
     if @user.update(user_params)
+      @user.profile_img_url = url_for(@user.profile_img) 
+      @user.save  
       respond_to_patch()
     else
       render json: @user.errors, status: :unprocessable_entity
