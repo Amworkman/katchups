@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   end
  
   def create 
-    @user = User.new(user_params)
+    @user = User.new(user_params)    
     if @user.save
       token = encode_token({user_id: @user.id})
       render json: {user: @user, token: token}
@@ -32,7 +32,8 @@ class UsersController < ApplicationController
     end
   end
   
-  def update 
+  def update
+    @user.profile_img.attach(data: params["profile_img"])
     if @user.update(user_params)
       @user.profile_img_url = url_for(@user.profile_img) 
       @user.save  
@@ -77,6 +78,6 @@ class UsersController < ApplicationController
     end
     
     def user_params
-      params.permit(:username, :password, :email, :name, :location, :profile_img)
+      params.permit(:username, :password, :email, :name, :location, :profile_img_url)
     end
 end
