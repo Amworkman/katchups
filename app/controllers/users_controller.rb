@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:friends, :pending_friends, :show, :update, :destroy]
+  before_action :set_user, only: [:friends, :pending_requests, :friend_requests, :show, :update, :destroy]
   before_action :authorized, only: [:auto_login]
   include Rails.application.routes.url_helpers
  
@@ -10,12 +10,17 @@ class UsersController < ApplicationController
   
   def friends     
     @users = @user.friends     
-    render json: @users
+    render json: @users.as_json(root: "friend")
   end
 
-  def pending_friends    
-    @users = User.first.pending_friends
-    render json: @users
+  def friend_requests    
+    @users = @user.friend_requests
+    render json: @users.as_json(root: "request")
+  end
+
+  def pending_requests    
+    @users = @user.pending_requests
+    render json: @users.as_json(root: "pending")
   end
   
   def show
