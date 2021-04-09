@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 
   post "/login", to:"users#login"
   get "/auto_login", to: "users#auto_login"
-  get "/pending_friends", to: "users#pending_friends"
+  get "/friends/pending_requests", to: "users#pending_requests"
+  get "/friends/requests", to: "users#friend_requests"
   get "/friends", to: "users#friends"
   get "/places_key", to: "places_key#index"
   delete "/delete_pending", to: "relationships#delete_pending"
