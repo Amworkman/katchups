@@ -17,9 +17,16 @@ class User < ApplicationRecord
         User.where(id: ids)
     end
 
-    def pending_friends
+    def pending_requests
+        sent_invitation = Relationship.where(user_id: id, confirmed: false).pluck(:friend_id)
+        pending = sent_invitation
+        User.where(id: pending)
+    end
+
+    def friend_requests
         recieved_invitation = Relationship.where(friend_id: id, confirmed: false).pluck(:user_id)
-        User.where(id: recieved_invitation)
+        request = recieved_invitation
+        User.where(id: request)
     end
 
     def friend_with?(user)
