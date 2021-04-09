@@ -8,7 +8,6 @@ class RelationshipsController < ApplicationController
 
     render json: @relationships
   end
-
   
   def show
     render json: @relationship
