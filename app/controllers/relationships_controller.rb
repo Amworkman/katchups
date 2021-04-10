@@ -23,6 +23,7 @@ class RelationshipsController < ApplicationController
   end
   
   def update
+    @relationship = Relationship.where(friend_id: relationship_params[:user_id], user_id: relationship_params[:friend_id], confirmed: false)
     if @relationship.update(relationship_params)
       render json: @relationship
     else
