@@ -5,8 +5,8 @@ class Restaurant < ApplicationRecord
     @@headers = {
         headers: {
             "Authorization" => "Bearer #{@@api_key}"
-            }
         }
+    }
 
     def self.location_restaurants(location, date="")
         @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&sort_by=best_match"

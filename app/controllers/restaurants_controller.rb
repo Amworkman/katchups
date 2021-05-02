@@ -3,10 +3,8 @@ class RestaurantsController < ApplicationController
   before_action :set_location, only:[:index]
 
   
-  def index
-    
-    if params[:date] 
-           
+  def index    
+    if params[:date]           
       @location = params[:location]
       @date = params[:date].to_time.to_i      
       @restaurants = Restaurant.location_restaurants(@location, @date)
