@@ -4,16 +4,9 @@ class RestaurantsController < ApplicationController
 
   
   def index    
-    if params[:date]           
-      @location = params[:location]
-      @date = params[:date].to_time.to_i      
-      @restaurants = Restaurant.katchup_restaurants(@location, @date)
-      render json: @restaurants
-    else
       @restaurants = Restaurant.location_restaurants(@location) 
       logged_in_user
       render json: @restaurants
-    end
   end
 
   
