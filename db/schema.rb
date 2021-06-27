@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_032720) do
+ActiveRecord::Schema.define(version: 2021_06_26_210224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2021_02_10_032720) do
     t.string "location"
     t.integer "user_id"
     t.integer "friend_id"
+    t.json "katchup_array", default: [], array: true
     t.index ["relationship_id"], name: "index_katchups_on_relationship_id"
   end
 
