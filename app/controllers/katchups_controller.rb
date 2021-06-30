@@ -11,27 +11,28 @@ class KatchupsController < ApplicationController
   end
   
   def create
-    @relationship = Relationship.find_relationship(params["user_id"], params["friend_id"])
-      #if Katchup.detect
-        @katchup = Katchup.new(katchup_params)
-        @katchup.relationship_id = @relationship
-        @location = params[:location]
-        @date = params[:starts_at].to_time.to_i 
-        a = Restaurant.katchup_restaurants(@location, @date, 0)["businesses"]
-        b = Restaurant.katchup_restaurants(@location, @date, 50)["businesses"]    
-        @restaurants = [(Restaurant.katchup_restaurants(@location, @date, 0)["businesses"]), (Restaurant.katchup_restaurants(@location, @date, 50)["businesses"])].flatten
-        i = 10
-        while i > 0
-          num = rand(0..@restaurants.length-1)
-          if !@katchup.katchup_array.include?(@restaurants[num])
-            @katchup.katchup_array.push(@restaurants[num])
-            i -= 1               
-          end   
-        end 
-    if @katchup.save
-      render json: @katchup, status: :created, location: @katchup
+    if  @relationship = Relationship.find_relationship(params["user_id"], params["friend_id"])
+      @katchup = Katchup.new(katchup_params.merge(:relationship_id => @relationship))
+      @location = params[:location]
+      @date = params[:starts_at].to_time.to_i 
+      @restaurants = [(Restaurant.katchup_restaurants(@location, @date, 0)["businesses"]), (Restaurant.katchup_restaurants(@location, @date, 50)["businesses"])].flatten
+      i = 10
+      while i > 0
+        num = rand(0..@restaurants.length-1)
+        if !@katchup.katchup_array.include?(@restaurants[num])
+          @katchup.katchup_array.push(@restaurants[num])
+          i -= 1               
+        end   
+      end 
+      if @katchup.save
+        render json: @katchup, status: :created
+      else
+        render json: @katchup.errors, status: :unprocessable_entity
+      end
     else
-      render json: @katchup.errors, status: :unprocessable_entity
+      render json: {
+        error: "No such relationship"
+      }
     end
   end
   
