@@ -8,7 +8,6 @@ class RestaurantsController < ApplicationController
       logged_in_user
       render json: @restaurants
   end
-
   
   def show    
     render json: @restaurant
