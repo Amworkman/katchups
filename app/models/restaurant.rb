@@ -14,11 +14,7 @@ class Restaurant < ApplicationRecord
     end
 
     def self.katchup_restaurants(location, date="", offset)
-        if offset === 0
-            @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&limit=50&sort_by=best_match"
-        elsif offset > 0
-            @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&limit=50&offset=50&&sort_by=best_match"
-        end
+         @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&limit=50&offset=#{offset}&&sort_by=best_match"
         HTTParty.get(@search_url, @@headers)
     end
 
