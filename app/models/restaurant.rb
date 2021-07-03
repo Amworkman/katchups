@@ -1,7 +1,7 @@
 class Restaurant < ApplicationRecord    
 
     @@api_key = "#{ENV['YELP_API_KEY']}" 
-    @@url = "https://api.yelp.com/v3/graphql"  
+    # @@url = "https://api.yelp.com/v3/graphql"  
 
     @@headers = {
         headers: {
@@ -48,8 +48,20 @@ class Restaurant < ApplicationRecord
     end
 
     def self.katchup_restaurants(location, date="", offset)
-         @search_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&category=restaurants&open_at=#{date}&limit=50&offset=#{offset}&&sort_by=best_match"
-        HTTParty.get(@search_url, @@headers)
+        HTTParty.get(
+            @url,
+            headers: {
+                "Authorization" => "Bearer #{@@api_key}",
+                "content-type" => "application/graphql"
+            },
+            body: <<-GRAPHQL
+            {
+                search(location: "#{location}", categories: "restaurants", limit: 50, open_at: "#{date}", offset: "#{offest}", sort_by: "best_match") {
+                    #{@@fragment}
+                }
+            }
+            GRAPHQL
+        )
     end
 
     def self.single(restaurant_id)
