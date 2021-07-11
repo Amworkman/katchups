@@ -15,7 +15,7 @@ class KatchupsController < ApplicationController
       @katchup = Katchup.new(katchup_params.merge(:relationship_id => @relationship))
       @location = params[:location]
       @date = params[:starts_at].to_time.to_i 
-      @restaurants = [(Restaurant.katchup_restaurants(@location, @date, 0)["businesses"]), (Restaurant.katchup_restaurants(@location, @date, 50)["businesses"])].flatten
+      @restaurants = [(Restaurant.katchup_restaurants(@location, @date, 0))["data"]["search"]["business"], (Restaurant.katchup_restaurants(@location, @date, 50))].flatten
       i = 10
       while i > 0
         num = rand(0..@restaurants.length-1)
