@@ -1,5 +1,5 @@
 class KatchupsController < ApplicationController
-  before_action :set_katchup, only: [:show, :destroy]
+  before_action :set_katchup, only: [:show, :update, :destroy]
   
   def index
     @katchups = Katchup.where(user_id: logged_in_user.id).or(Katchup.where( friend_id: logged_in_user.id))
@@ -36,14 +36,16 @@ class KatchupsController < ApplicationController
     end
   end
   
-  def update     
-    if params[:id]    
-      @katchup = Katchup.find_by_id(params[:id]) 
-      if @katchup.update(katchup_params)
-        render json: @katchup
-      else 
-        render json: @katchup.errors, status: :unprocessable_entity
-      end     
+  def update
+    if params[:user_restaurant]    
+      @katchup.user_array.push(params[:user_restaurant])
+    elsif params[:friend_restaurant]
+      @katchup.friend_array.push(params[:friend_restaurant])
+    end
+    if @katchup.save
+      render json: @katchup
+    else 
+      render json: @katchup.errors, status: :unprocessable_entity    
     end
   end
     
